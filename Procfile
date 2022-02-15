@@ -1,1 +1,1 @@
-web: python3 ./main.py > log.txt
+worker: python3 ./main.py
