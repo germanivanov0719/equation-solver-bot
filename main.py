@@ -1,3 +1,4 @@
+#! python3
 from telegram import Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, Filters
 
