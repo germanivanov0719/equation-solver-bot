@@ -1,1 +1,1 @@
-web: python3 ./main.py > log.txt
+web: python3 maintenance.py
