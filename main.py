@@ -22,7 +22,7 @@ class ImaginaryNumbers():
 
 
 def start(update, context):
-    context.bot.send_message(update.effective_chat.id, "Введите коэффициент a:")
+    context.bot.send_message(update.effective_chat.id, "Введите коэффициент A:")
     return COOF_A
 
 def coof_a(update, context):
