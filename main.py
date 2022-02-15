@@ -1,7 +1,9 @@
+import os
 from telegram import Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, Filters
 
 
+PORT = int(os.environ.get('PORT', 5000))
 TOKEN = "5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc"
 URL = "https://api.telegram.org/bot5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc/getUpdates"
 
@@ -104,6 +106,10 @@ conversation_handler = ConversationHandler(
 )
 
 dispatcher.add_handler(conversation_handler)
-updater.start_polling()
+updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
+updater.bot.setWebhook('https://yourherokuappname.herokuapp.com/' + TOKEN)
+# updater.start_polling()
 updater.idle()
 
