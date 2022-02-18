@@ -36,6 +36,8 @@ def calculation(update, context):
     print(a, b, c, end=' => ')
     context.bot.send_message(update.effective_chat.id, "Решаем...")
     try:
+        D = float(b) ** 2 - (4 * float(a) * float(c))
+        context.bot.send_message(update.effective_chat.id, f'√{D} = {D ** .5}')
         e = solve(float(a), float(b), float(c))
         context.bot.send_message(
             update.effective_chat.id, str(e), parse_mode=ParseMode.HTML)
@@ -60,6 +62,11 @@ def info(update, context):
         update.effective_chat.id,
         "Привет. Данный бот был создан для решения "
         "квадратных уравнений любой сложности за считанные секунды.")
+
+
+def easter_egg(update, context):
+    context.bot.send_message(update.effective_chat.id,
+                             "https://www.karusel-tv.ru/")
 
 
 def generate_commands_buttons():
