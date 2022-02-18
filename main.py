@@ -1,10 +1,18 @@
 import os
-from telegram import Bot
+from telegram import Bot, KeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHandler, Filters
+from res.number_classes import *
+# Importing tokens
+from tokens import token, token_debug
 
 
 PORT = int(os.environ.get('PORT', 88))
-TOKEN = "5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc"
+DEBUG = 0
+if DEBUG:
+    TOKEN = token_debug
+else:
+    TOKEN = token
+WEBHOOK_URL = 'https://equation-solver-bot.herokuapp.com/' + TOKEN
 URL = "https://api.telegram.org/bot" + TOKEN + "/getUpdates"
 
 bot = Bot(TOKEN)
@@ -12,28 +20,21 @@ updater = Updater(TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
 a, b, c = 1, 1, 1
-COOF_A = 1
-COOF_B = 2
+COEF_A = 1
+COEF_B = 2
 CALCULATION = 3
 
-class AllRealNumbers():
-    pass
-
-class ImaginaryNumbers():
-    pass
-
-
 def start(update, context):
-    context.bot.send_message(update.effective_chat.id, "Введите коэффициент a:")
-    return COOF_A
+    context.bot.send_message(update.effective_chat.id, "Введите коэффициент a:", reply_markup=generate_commands_buttons())
+    return COEF_A
 
-def coof_a(update, context):
+def coef_a(update, context):
     global a
     a = update.message.text
     context.bot.send_message(update.effective_chat.id, "Введите коэффициент b:")
-    return COOF_B
+    return COEF_B
 
-def coof_b(update, context):
+def coef_b(update, context):
     global b
     b = update.message.text
     context.bot.send_message(update.effective_chat.id, "Введите коэффициент c:")
@@ -91,30 +92,39 @@ def solve_quadratic_eq(a, b, c):
     
 def info(update, context):
     context.bot.send_message(update.effective_chat.id, "Привет, данный бот был создан для решения квадратных уравнений любой сложности")
+    
+def generate_commands_buttons():
+    kb = [[KeyboardButton('/start')],
+          [KeyboardButton('/info')]]
+    kb_markup = ReplyKeyboardMarkup(kb)
+    return kb_markup
 
 start_handler = CommandHandler("start", start)
-coof_a_handler = MessageHandler(Filters.text, coof_a)
-coof_b_handler = MessageHandler(Filters.text, coof_b)
+coof_a_handler = MessageHandler(Filters.text, coef_a)
+coof_b_handler = MessageHandler(Filters.text, coef_b)
 calculation_handler = MessageHandler(Filters.text, calculation)
 cancel_handler = CommandHandler("cancel", cancel)
 info_handler = CommandHandler("info", info)
 
 conversation_handler = ConversationHandler(
     entry_points=[start_handler],
-    states={
-        COOF_A: [coof_a_handler],
-        COOF_B: [coof_b_handler],
-        CALCULATION: [calculation_handler]
-    },
-    fallbacks=[cancel_handler]
+    states={COEF_A: [coof_a_handler],
+            COEF_B: [coof_b_handler],
+            CALCULATION: [calculation_handler]},
+    fallbacks=[cancel_handler],
+    allow_reentry=True
 )
 
 dispatcher.add_handler(info_handler)
 dispatcher.add_handler(conversation_handler)
-updater.start_webhook(listen="0.0.0.0",
-                      port=int(PORT),
-                      url_path=TOKEN,
-                      webhook_url = 'https://equation-solver-bot.herokuapp.com/' + TOKEN)
-# updater.start_polling()
+
+if DEBUG:
+    updater.start_polling()
+else:
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN,
+                          webhook_url=WEBHOOK_URL)
+
 updater.idle()
 
