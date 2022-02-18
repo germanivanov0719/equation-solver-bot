@@ -82,5 +82,6 @@ handlers = {
     'coof_b_handler': MessageHandler(Filters.text, coef_b),
     'calculation_handler': MessageHandler(Filters.text, calculation),
     'cancel_handler': CommandHandler("cancel", cancel),
-    'info_handler': CommandHandler("info", info)
+    'info_handler': CommandHandler("info", info),
+    'easter_egg_handler': CommandHandler("easter_egg", easter_egg)
 }

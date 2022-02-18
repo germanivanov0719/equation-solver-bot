@@ -31,6 +31,7 @@ conversation_handler = ConversationHandler(
 )
 
 dispatcher.add_handler(handlers['info_handler'])
+dispatcher.add_handler(handlers['easter_egg'])
 dispatcher.add_handler(conversation_handler)
 
 if DEBUG:
