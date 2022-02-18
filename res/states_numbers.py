@@ -1,0 +1,3 @@
+COEF_A = 1
+COEF_B = 2
+CALCULATION = 3
