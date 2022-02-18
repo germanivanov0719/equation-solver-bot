@@ -4,8 +4,7 @@ from telegram.ext import Updater, ConversationHandler
 from res.number_classes import *
 from res.handlers import handlers
 from res.states_numbers import *
-# Importing tokens
-from tokens import token, token_debug
+from tokens import token, token_debug  # Importing tokens
 
 a, b, c = 1, 1, 1
 
@@ -37,7 +36,7 @@ dispatcher.add_handler(conversation_handler)
 if DEBUG:
     updater.start_polling()
 else:
-    updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=TOKEN, webhook_url=WEBHOOK_URL)
+    updater.start_webhook(listen="0.0.0.0", port=int(PORT),
+                          url_path=TOKEN, webhook_url=WEBHOOK_URL)
 
 updater.idle()
-
