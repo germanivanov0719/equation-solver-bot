@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, ConversationHa
 
 PORT = int(os.environ.get('PORT', 88))
 TOKEN = "5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc"
-URL = "https://api.telegram.org/bot5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc/getUpdates"
+URL = "https://api.telegram.org/bot" + TOKEN + "/getUpdates"
 
 bot = Bot(TOKEN)
 updater = Updater(TOKEN, use_context=True)
@@ -88,12 +88,16 @@ def solve_quadratic_eq(a, b, c):
         return [square1, square2]
     else:
         return ImaginaryNumbers()
+    
+def info(update, context):
+    context.bot.send_message(update.effective_chat.id, "Привет, данный бот был создан для решения квадратных уравнений любой сложности")
 
 start_handler = CommandHandler("start", start)
 coof_a_handler = MessageHandler(Filters.text, coof_a)
 coof_b_handler = MessageHandler(Filters.text, coof_b)
 calculation_handler = MessageHandler(Filters.text, calculation)
 cancel_handler = CommandHandler("cancel", cancel)
+info_handler = CommandHandler("info", info)
 
 conversation_handler = ConversationHandler(
     entry_points=[start_handler],
@@ -105,6 +109,7 @@ conversation_handler = ConversationHandler(
     fallbacks=[cancel_handler]
 )
 
+dispatcher.add_handler(info_handler)
 dispatcher.add_handler(conversation_handler)
 updater.start_webhook(listen="0.0.0.0",
                       port=int(PORT),
