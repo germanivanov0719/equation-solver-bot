@@ -34,9 +34,13 @@ def toggle_biq_mode(update, context):
     global BIQUADRARIC_MODE
     BIQUADRARIC_MODE = not BIQUADRARIC_MODE
     if BIQUADRARIC_MODE:
-        context.bot.send_message(update.effective_chat.id, "Режим решения биквадратных уравнений включен.")
+        context.bot.send_message(update.effective_chat.id,
+                                 "Режим решения биквадратных "
+                                 "уравнений включен.")
     else:
-        context.bot.send_message(update.effective_chat.id, "Режим решения биквадратных уравнений выключен.")
+        context.bot.send_message(update.effective_chat.id,
+                                 "Режим решения биквадратных "
+                                 "уравнений выключен.")
 
 
 def calculation(update, context):
@@ -72,7 +76,8 @@ def info(update, context):
         update.effective_chat.id,
         "Привет. Данный бот был создан для решения "
         "квадратных уравнений любой сложности за считанные секунды.\n"
-        "Для решения биквадратных уравнений используйте команду /toggle_biq_mode.\n\n"
+        "Для решения биквадратных уравнений используйте "
+        "команду /toggle_biq_mode.\n\n"
         "(Тут есть пасхалка, на английском через нижнее подчеркивание)")
 
 

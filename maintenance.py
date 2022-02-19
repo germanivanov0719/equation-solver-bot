@@ -4,7 +4,7 @@ from telegram.ext import (Updater, CommandHandler,
 
 
 TOKEN = "5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc"
-URL = "https://api.telegram.org/bot5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc/getUpdates"
+URL = "https://api.telegram.org/" + TOKEN + "/getUpdates"
 
 bot = Bot(TOKEN)
 updater = Updater(TOKEN, use_context=True)
