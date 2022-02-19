@@ -1,7 +1,7 @@
 import os
 from telegram import Bot
 from telegram.ext import Updater, ConversationHandler
-from res.number_classes import *
+from res.math import *
 from res.handlers import handlers
 from res.states_numbers import *
 from tokens import token, token_debug  # Importing tokens
@@ -32,6 +32,7 @@ conversation_handler = ConversationHandler(
 
 dispatcher.add_handler(handlers['info_handler'])
 dispatcher.add_handler(handlers['easter_egg_handler'])
+dispatcher.add_handler(handlers['toggle_biq_mode'])
 dispatcher.add_handler(conversation_handler)
 
 if DEBUG:

@@ -4,7 +4,7 @@ from telegram.ext import (CommandHandler,
                           ConversationHandler,
                           Filters)
 from res.states_numbers import *
-from res.methods import *
+BIQUADRARIC_MODE = False
 
 
 def start(update, context):
@@ -30,15 +30,25 @@ def coef_b(update, context):
     return CALCULATION
 
 
+def toggle_biq_mode(update, context):
+    global BIQUADRARIC_MODE
+    BIQUADRARIC_MODE = not BIQUADRARIC_MODE
+    if BIQUADRARIC_MODE:
+        context.bot.send_message(update.effective_chat.id, "Режим решения биквадратных уравнений включен.")
+    else:
+        context.bot.send_message(update.effective_chat.id, "Режим решения биквадратных уравнений выключен.")
+
+
 def calculation(update, context):
+    from res.methods import solve
     global c
     c = update.message.text
     print(a, b, c, end=' => ')
     context.bot.send_message(update.effective_chat.id, "Решаем...")
     try:
+        e = solve(float(a), float(b), float(c))
         D = float(b) ** 2 - (4 * float(a) * float(c))
         context.bot.send_message(update.effective_chat.id, f'√{D} = {D ** .5}')
-        e = solve(float(a), float(b), float(c))
         context.bot.send_message(
             update.effective_chat.id, str(e), parse_mode=ParseMode.HTML)
     except ValueError:
@@ -61,7 +71,8 @@ def info(update, context):
     context.bot.send_message(
         update.effective_chat.id,
         "Привет. Данный бот был создан для решения "
-        "квадратных уравнений любой сложности за считанные секунды.\n\n"
+        "квадратных уравнений любой сложности за считанные секунды.\n"
+        "Для решения биквадратных уравнений используйте команду /toggle_biq_mode.\n\n"
         "(Тут есть пасхалка, на английском через нижнее подчеркивание)")
 
 
@@ -72,6 +83,7 @@ def easter_egg(update, context):
 
 def generate_commands_buttons():
     kb = [[KeyboardButton('/start')],
+          [KeyboardButton('/toggle_biq_mode')],
           [KeyboardButton('/info')]]
     kb_markup = ReplyKeyboardMarkup(kb)
     return kb_markup
@@ -84,5 +96,6 @@ handlers = {
     'calculation_handler': MessageHandler(Filters.text, calculation),
     'cancel_handler': CommandHandler("cancel", cancel),
     'info_handler': CommandHandler("info", info),
-    'easter_egg_handler': CommandHandler("easter_egg", easter_egg)
+    'easter_egg_handler': CommandHandler("easter_egg", easter_egg),
+    'toggle_biq_mode': CommandHandler("toggle_biq_mode", toggle_biq_mode)
 }
