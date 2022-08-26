@@ -1,2 +1,2 @@
-token = '5032070179:AAFlEyrofYEhStVpCPPgOginb-zyOYBalDc'
-token_debug = '5134380514:AAGe_1ytKd8_YXzHzinS3uLmPisGoqzrhag'
+token = 'INSERT YOUR TOKEN'
+token_debug = 'INSERT YOUR TOKEN FOR DEBUG BOT (OPTIONAL)'
